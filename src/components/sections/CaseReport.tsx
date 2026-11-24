@@ -20,7 +20,7 @@ export default function CaseReport({ c, index }: { c: CaseStudy; index: number }
 
       <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-28">
+          <div className="lg:motion-safe:sticky lg:top-28">
             <h2 id={`${c.slug}-title`} className="h3 text-muted">
               {c.client}
             </h2>

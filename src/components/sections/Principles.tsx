@@ -22,6 +22,8 @@ export default function Principles() {
           className="x-wide mt-20 max-w-[22ch] text-[clamp(30px,4.6vw,72px)] font-semibold leading-[1.02] tracking-[-0.035em] md:mt-32 lg:ml-[33.4%] lg:max-w-none"
           text="Large consultancies bring scale but little accountability. Smaller firms bring agility but not breadth. We built Bower Place to offer both."
           accent={["both"]}
+          accentClass="text-cobalt-light"
+          faint="#6b7385"
         />
 
         <ol className="mt-20 grid gap-px bg-rule-dark md:mt-32 md:grid-cols-2 lg:grid-cols-4" data-anim="stagger">

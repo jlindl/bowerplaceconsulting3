@@ -21,13 +21,13 @@ export default function ServiceRows() {
       const mm = gsap.matchMedia();
       mm.add("(pointer: fine) and (prefers-reduced-motion: no-preference) and (min-width: 1024px)", () => {
         const el = preview.current!;
-        gsap.set(el, { xPercent: -50, yPercent: -50 });
+        gsap.set(el, { xPercent: 0, yPercent: -50 });
         const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "power3" });
         const yTo = gsap.quickTo(el, "y", { duration: 0.6, ease: "power3" });
         const list = scope.current!.querySelector<HTMLElement>("[data-list]")!;
         const move = (e: PointerEvent) => {
           const r = scope.current!.getBoundingClientRect();
-          xTo(e.clientX - r.left);
+          xTo(e.clientX - r.left + 36);
           yTo(e.clientY - r.top);
         };
         list.addEventListener("pointermove", move);
@@ -98,7 +98,7 @@ export default function ServiceRows() {
               active === i ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(100%_0_0_0)]"
             }`}
           >
-            <Image src={s.image} alt="" fill sizes="240px" className="object-cover" />
+            <Image src={s.image} alt="" fill sizes="480px" className="object-cover" />
           </div>
         ))}
         </div>

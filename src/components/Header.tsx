@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type Lenis from "lenis";
 import Logo from "./Logo";
 import Button, { Roll } from "./Button";
@@ -31,15 +31,24 @@ export default function Header() {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
+
   useEffect(() => {
     const lenis = getLenis();
+    // Everything behind the menu goes inert while it is open, so focus stays inside the menu and header.
+    const behind = [document.getElementById("main"), document.querySelector("footer")];
     if (open) {
       lenis?.stop();
       document.documentElement.style.overflow = "hidden";
+      behind.forEach((el) => el?.setAttribute("inert", ""));
     } else {
       lenis?.start();
       document.documentElement.style.overflow = "";
+      behind.forEach((el) => el?.removeAttribute("inert"));
+      if (wasOpen.current) toggleRef.current?.focus();
     }
+    wasOpen.current = open;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
@@ -98,7 +107,7 @@ export default function Header() {
           <div className="relative z-10 flex items-center gap-6">
             <a
               href={site.phoneHref}
-              className="ulink hidden font-mono text-[13px] tracking-[0.02em] xl:inline"
+              className="ulink hidden py-2 font-mono text-[13px] tracking-[0.02em] xl:inline-block"
             >
               {site.phone}
             </a>
@@ -107,6 +116,7 @@ export default function Header() {
             </Button>
             <button
               type="button"
+              ref={toggleRef}
               className={`relative -mr-2 flex h-11 w-11 items-center justify-center lg:hidden ${open ? "text-white" : "text-ink"}`}
               aria-expanded={open}
               aria-controls="mobile-menu"
@@ -127,8 +137,8 @@ export default function Header() {
       <div
         id="mobile-menu"
         data-lenis-prevent
-        className={`on-cobalt fixed inset-0 z-40 overflow-y-auto bg-cobalt pt-[76px] text-white transition-[clip-path] duration-[900ms] ease-[cubic-bezier(.7,0,.2,1)] lg:hidden ${
-          open ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
+        className={`on-cobalt fixed inset-0 z-40 overflow-y-auto bg-cobalt pt-[76px] text-white transition-[clip-path,visibility] duration-[900ms] ease-[cubic-bezier(.7,0,.2,1)] lg:hidden ${
+          open ? "visible [clip-path:inset(0_0_0_0)]" : "pointer-events-none invisible [clip-path:inset(0_0_100%_0)]"
         }`}
         aria-hidden={!open}
         inert={!open}

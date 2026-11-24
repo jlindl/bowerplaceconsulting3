@@ -44,7 +44,7 @@ export default function MethodLedger() {
               </span>
               <div className="mt-10 transition-colors duration-500 group-hover:text-white">
                 <h3 className="h3">{m.title}</h3>
-                <p className="mt-3 max-w-[32ch] text-[16px] text-muted transition-colors duration-500 group-hover:text-on-cobalt">
+                <p className="mt-3 min-h-[4.8em] max-w-[32ch] text-[16px] text-muted transition-colors duration-500 group-hover:text-on-cobalt">
                   {m.body}
                 </p>
               </div>

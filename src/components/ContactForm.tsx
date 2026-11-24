@@ -107,7 +107,7 @@ export default function ContactForm() {
       onSubmit={onSubmit}
       onBlur={onFieldEvent}
       onInput={onFieldEvent}
-      className="border-t border-ink pt-10"
+      className=""
       aria-labelledby="form-title"
     >
       <h2 id="form-title" className="h3">

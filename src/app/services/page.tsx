@@ -52,7 +52,7 @@ export default function ServicesPage() {
                 </div>
               </div>
               <div className={`lg:col-span-5 ${i % 2 === 1 ? "lg:order-1" : "lg:col-start-8"}`}>
-                <div className="lg:sticky lg:top-28">
+                <div className="lg:motion-safe:sticky lg:top-28">
                   <div className="photo aspect-[4/5] w-full" data-anim="img">
                     <Image src={s.image} alt={s.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
                   </div>

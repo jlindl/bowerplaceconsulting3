@@ -33,7 +33,7 @@ export default function PageHero({
       {image && (
         <figure className="mt-16 md:mt-24">
           <div className="photo photo-duo relative h-[56vh] min-h-[320px] w-full md:h-[80vh]" data-anim="expand">
-            <Image src={image} alt={alt ?? ""} fill priority sizes="100vw" className="object-cover" />
+            <Image src={image} alt={alt ?? ""} fill priority quality={60} sizes="100vw" className="object-cover" />
             {caption && (
               <figcaption className="label absolute bottom-6 left-[var(--gutter)] z-10 flex items-center gap-3 text-white">
                 <span className="h-2 w-2 bg-white" aria-hidden="true" />

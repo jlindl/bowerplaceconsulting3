@@ -16,7 +16,7 @@ export default function CaseStack() {
           key={c.slug}
           data-card
           aria-labelledby={`stack-${c.slug}`}
-          className="sticky mb-6 md:mb-10"
+          className="mb-6 motion-safe:sticky md:mb-10"
           style={{ top: `calc(96px + ${i * 14}px)` }}
         >
           <div data-card-inner className="relative origin-top">

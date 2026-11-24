@@ -12,7 +12,7 @@ export default function HomeHero() {
             <span className="h-2 w-2 bg-cobalt" aria-hidden="true" />
             GovTech consulting for the UK public sector
           </p>
-          <p className="label hidden text-muted md:block">Central government · Local authorities · NHS · ALBs</p>
+          <p className="label hidden text-muted md:block">Central government · Local authorities · NHS · Arm&rsquo;s-length bodies</p>
         </div>
 
         <Lines
@@ -60,6 +60,7 @@ export default function HomeHero() {
             alt="An ornate stone government building behind bare winter trees"
             fill
             priority
+            quality={60}
             sizes="100vw"
             className="object-cover"
           />

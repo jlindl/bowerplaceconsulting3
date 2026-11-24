@@ -10,6 +10,7 @@
   --color-rule-dark: #2a3140;
   --color-cobalt: #1f3bff;
   --color-cobalt-deep: #1429c9;
+  --color-cobalt-light: #8797ff;
   --color-on-cobalt: #dfe4ff;
   --color-on-dark-muted: #a3aab8;
 
@@ -106,7 +107,8 @@
   }
   @media (max-width: 639px) {
     .display {
-      font-size: 7.6vw;
+      font-size: 10.4vw;
+      font-variation-settings: "wdth" 100;
     }
   }
   @media (min-width: 640px) {
@@ -324,6 +326,7 @@
 
   .field {
     width: 100%;
+    scroll-margin-top: 140px;
     min-height: 54px;
     padding: 14px 0;
     background: transparent;

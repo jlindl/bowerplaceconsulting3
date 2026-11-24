@@ -84,12 +84,15 @@ export default function PageMotion({ children }: { children: React.ReactNode }) 
           if (img) tl.fromTo(img, { scale: 1.22 }, { scale: 1, ease: "none" }, 0);
         });
 
+        // Words move from a muted tone (still 3:1 for large text, so never illegible) to their full colour.
         all('[data-anim="words"]').forEach((el) => {
-          gsap.fromTo(
-            el.querySelectorAll(".w"),
-            { opacity: 0.16 },
-            { opacity: 1, ease: "none", stagger: 0.05, scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 45%", scrub: true } }
-          );
+          const faint = el.dataset.faint || "#858b97";
+          const words = Array.from(el.querySelectorAll<HTMLElement>(".w"));
+          const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 45%", scrub: true } });
+          words.forEach((w, i) => {
+            const full = getComputedStyle(w).color;
+            tl.fromTo(w, { color: faint }, { color: full, ease: "none", duration: 1 }, i * 0.05 * 10);
+          });
         });
 
         all('[data-anim="letters"]').forEach((el) => {
@@ -110,15 +113,39 @@ export default function PageMotion({ children }: { children: React.ReactNode }) 
           );
         });
 
-        // Stacking cards: each card scales back and dims as the next one slides over it.
+        // Stacking cards: a card scales back and dims only while the next one is sliding over it.
+        // Triggers hang off the non-sticky wrapper (sticky elements make unreliable triggers),
+        // using each card's natural layout offset. Offsets mirror the sticky `top` in CaseStack.
         all('[data-anim="stack"]').forEach((wrap) => {
           const cards = Array.from(wrap.querySelectorAll<HTMLElement>("[data-card]"));
+          const STICK = 96;
+          const STEP = 14;
+          const natural = () => {
+            let y = 0;
+            return cards.map((c) => {
+              const top = y;
+              const mb = parseFloat(getComputedStyle(c).marginBottom) || 0;
+              y += c.offsetHeight + mb;
+              return { top, h: c.offsetHeight };
+            });
+          };
           cards.forEach((card, i) => {
-            const next = cards[i + 1];
-            if (!next) return;
-            const st = { trigger: next, start: "top bottom", end: "top 20%", scrub: true };
-            gsap.to(card.querySelector("[data-card-inner]"), { scale: 0.92, ease: "none", scrollTrigger: st });
-            gsap.to(card.querySelector("[data-card-shade]"), { opacity: 0.55, ease: "none", scrollTrigger: { ...st } });
+            if (!cards[i + 1]) return;
+            const st = {
+              trigger: wrap,
+              // next card's top crosses this card's bottom edge...
+              start: () => {
+                const n = natural();
+                return `top+=${n[i + 1].top - n[i].h - STEP * i} ${STICK}px`;
+              },
+              // ...until it reaches its own stuck position
+              end: () => `top+=${natural()[i + 1].top - STEP * (i + 1)} ${STICK}px`,
+              scrub: true,
+              invalidateOnRefresh: true,
+            };
+            const tl = gsap.timeline({ scrollTrigger: st });
+            tl.fromTo(card.querySelector("[data-card-inner]"), { scale: 1 }, { scale: 0.94, ease: "none" }, 0);
+            tl.fromTo(card.querySelector("[data-card-shade]"), { opacity: 0 }, { opacity: 0.4, ease: "none" }, 0);
           });
         });
       });
@@ -139,6 +166,8 @@ export default function PageMotion({ children }: { children: React.ReactNode }) 
               pin: true,
               scrub: 0.8,
               invalidateOnRefresh: true,
+              // Pinned above later triggers: refresh first so their offsets include the pin spacer.
+              refreshPriority: 1,
             },
           });
           tl.to(track, { x: () => -distance(), ease: "none" }, 0);

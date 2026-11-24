@@ -14,7 +14,7 @@ export default function ProofLedger() {
           <Lines
             id="proof-title"
             className="h2 lg:col-span-8"
-            lines={["Twenty years in", "the public sector.", "Now on your side."]}
+            lines={["20+ years in", "the public sector.", "Now on your side."]}
           />
         </div>
 

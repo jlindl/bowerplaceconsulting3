@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <section aria-labelledby="page-title" className="pb-[var(--section)]">
+    <section aria-labelledby="page-title" className="">
       <div className="wrap pt-[128px] md:pt-[176px]" data-hero>
         <p className="label flex items-center gap-3 self-start" data-anim="fade">
           <span className="h-2 w-2 bg-cobalt" aria-hidden="true" />
@@ -27,7 +27,8 @@ export default function ContactPage() {
         />
       </div>
 
-      <div className="wrap mt-12 grid gap-16 border-t border-ink pt-10 lg:grid-cols-12 lg:gap-10">
+      <div className="wrap mt-12">
+        <div className="grid gap-16 border-t border-ink pt-10 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <p className="lead max-w-[40ch]" data-anim="fade">
             Not sure which service fits? Let&rsquo;s talk. We reply within one working day, and every enquiry is
@@ -64,6 +65,22 @@ export default function ContactPage() {
         <div className="lg:col-span-7 lg:col-start-6">
           <ContactForm />
         </div>
+      </div>
+      </div>
+
+      <div className="on-cobalt mt-[var(--section)] bg-cobalt text-white">
+        <dl className="wrap grid gap-px py-16 md:grid-cols-3 md:py-24" data-anim="stagger">
+          {[
+            ["Response", "Within one working day"],
+            ["Confidentiality", "Every enquiry in strict confidence"],
+            ["Who we work with", "Public sector and government organisations only"],
+          ].map(([k, v]) => (
+            <div key={k} className="border-t border-white/30 py-8 md:pr-10">
+              <dt className="label text-on-cobalt">{k}</dt>
+              <dd className="x-wide mt-4 text-[clamp(22px,2.2vw,32px)] font-semibold leading-[1.1] tracking-[-0.025em]">{v}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
